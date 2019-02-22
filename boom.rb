@@ -1,14 +1,12 @@
-require "zlib"
-include Zlib
+#https://stackoverflow.com/questions/2405921/how-can-i-generate-zip-file-without-saving-to-the-disk-with-ruby
+require 'rubygems'
+require 'zip'
 
 data = "000000000000000000000000000000000000000000000000000000000000000000000" * 1000000
 
-compressed_data = Deflate.deflate(data)
 
-puts(data.length)
-puts(compressed_data.length)
-
-File::new( "new.zip","w")
-File.open("new.zip", "w") { 
-	|file| file.write("your text") 
-}
+File.open('data.gz', 'w') do |f|
+  gz = Zlib::GzipWriter.new(f)
+  gz.write data
+  gz.close
+end
